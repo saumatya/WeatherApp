@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import Search from './components/Search';
+import CurrentWeather from './components/CurrentWeather';
+
 
 function App() {
+  const [weatherData, setWeatherData] = useState(null);
+  const hardcodedWeather = {
+    municipality: "Helsinki",
+    temp: 15,
+    condition: "Partly Cloudy"
+  };
+
+  const handleSearch = (city) => {
+    console.log("Searching for:", city);
+    if (city.toLowerCase() === "helsinki"){
+      setWeatherData(hardcodedWeather);
+    }
+    else {
+      setWeatherData(null);
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Weather app</h1>
+      <Search onSearch={handleSearch}/>
+      {weatherData && <CurrentWeather data={weatherData}/>}
     </div>
   );
 }
