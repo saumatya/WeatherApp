@@ -1,24 +1,51 @@
-import { useState } from 'react';
+import { useState ,useEffect } from 'react';
 
 const Search = ({ onSearch }) => {
     const [muni, setMuni] = useState('');
     const [dropdownMuni, setDropdownMuni] = useState([]); // Tracks filtered dropdown options
+    const [municipalities, setMunicipalities] = useState([]); // State for storing municipalities from the API
 
-    const municipalities = [
-        "Akaa",
-        "Alajärvi",
-        "Alavieska",
-        "Alavus",
-        "Asikkala",
-        "Askola",
-        "Aura",
-        "Brändö",
-        "Eckerö",
-        "Enonkoski",
-        "Enontekiö",
-        "Espoo"
-    ];
+    //hardcoded municpalities list
+    // const municipalities = [
+    //     "Akaa",
+    //     "Alajärvi",
+    //     "Alavieska",
+    //     "Alavus",
+    //     "Asikkala",
+    //     "Askola",
+    //     "Aura",
+    //     "Brändö",
+    //     "Eckerö",
+    //     "Enonkoski",
+    //     "Enontekiö",
+    //     "Espoo"
+    // ];
+    //https://data.stat.fi/api/classifications/v2/classifications/kunta_1_20240101/classificationItems?content=data&meta=max&lang=en&format=json
 
+    useEffect(() => {
+        // Fetch municipalities from the API when the component mounts
+        const fetchMunicipalities = async () => {
+            try {
+                const response = await fetch(
+                    'https://data.stat.fi/api/classifications/v2/classifications/kunta_1_20240101/classificationItems?content=data&meta=max&lang=en&format=json'
+                );
+                const data = await response.json();
+                console.log(data);
+                // Assuming API returns an array of municipalities under the "classificationItems"
+                const municipalitiesList = data.map(item => ({
+                    name: item.classificationItemNames[0].name,
+                    code: item.code
+                }));
+                    
+                setMunicipalities(municipalitiesList); 
+            } catch (error) {
+                console.error('Error fetching municipalities:', error);
+            }
+        };
+        console.log(municipalities[0])
+        console.log()
+        fetchMunicipalities();
+    }, []);
     
     const handleInputChange = (e) => {
         const value = e.target.value;
@@ -27,7 +54,7 @@ const Search = ({ onSearch }) => {
         
         if (value.trim()) {
             const filtered = municipalities.filter((municipality) =>
-                municipality.toLowerCase().startsWith(value.trim().toLowerCase())
+                municipality.name.toLowerCase().startsWith(value.trim().toLowerCase())
             );
             setDropdownMuni(filtered);
         } else {
@@ -47,8 +74,9 @@ const Search = ({ onSearch }) => {
 
     
     const handleSuggestionClick = (suggestion) => {
-        setMuni(suggestion); 
+        setMuni(suggestion.name); 
         setDropdownMuni([]); 
+        console.log(`Municipality: ${suggestion.name}, Code: ${suggestion.code}`);
     };
 
     return (
@@ -65,10 +93,10 @@ const Search = ({ onSearch }) => {
                     <ul>
                         {dropdownMuni.map((municipality, index) => (
                             <li
-                                key={index}
+                                key={municipality.code}
                                 onClick={() => handleSuggestionClick(municipality)}
                             >
-                                {municipality}
+                                {municipality.name}
                             </li>
                         ))}
                     </ul>
