@@ -1,5 +1,5 @@
 import { useState ,useEffect } from 'react';
-
+import "../styles/search.css"
 const Search = ({ onSearch }) => {
     const [muni, setMuni] = useState('');
     const [dropdownMuni, setDropdownMuni] = useState([]); // Tracks filtered dropdown options
@@ -80,8 +80,8 @@ const Search = ({ onSearch }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div style={{ position: "relative" }}>
+        <form onSubmit={handleSubmit} className="search-form">
+            <div className='input-container'>
                 <input
                     type="text"
                     placeholder="Enter municipality"
@@ -90,7 +90,7 @@ const Search = ({ onSearch }) => {
                     required
                 />
                 {dropdownMuni.length > 0 && (
-                    <ul>
+                    <ul className='dropdown'>
                         {dropdownMuni.map((municipality, index) => (
                             <li
                                 key={municipality.code}
@@ -102,7 +102,10 @@ const Search = ({ onSearch }) => {
                     </ul>
                 )}
             </div>
-            <button type="submit">Search</button>
+            {/* <div className='search-button'> */}
+                <button type="submit">Search</button>
+            {/* </div> */}
+            
         </form>
     );
 };
