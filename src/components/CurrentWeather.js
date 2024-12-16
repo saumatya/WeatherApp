@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 
 const CurrentWeather = ({ data, description, fetchDescription, isLoading, unit  }) => {
+  const [translatedDescription, setTranslatedDescription] = useState(description);
     const [showDescription, setShowDescription] = useState(false);
   const userLanguage = localStorage.getItem("i18nextLng") || "en";
   const { t, i18n } = useTranslation();
@@ -28,6 +29,8 @@ const CurrentWeather = ({ data, description, fetchDescription, isLoading, unit  
   )}
   <div className="description">
     {description && <p className="description-text">{description}</p>}
+    {/* {translatedDescription && <p className="description-text">{translatedDescription}</p>} */}
+
   </div>
 </div>
 

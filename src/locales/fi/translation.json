@@ -19,6 +19,9 @@
     "loading":"Ladataan",
     "favorite": "Lisää kunta suosikiksi",
     "unitSelectorLabel": "Select Unit",
+    "descriptionPrompt" : "Kerro minulle {{muni}}-kunnan sijainnista ja alueesta Suomessa",
+    "showHourly": "Näytä tuntiennuste",
+    "hideHourly": "Piilota tuntiennuste",
     "WEEK_DAYS": {
       "monday": "Maanantai",
       "tuesday": "Tiistai",

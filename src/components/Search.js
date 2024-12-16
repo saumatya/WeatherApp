@@ -6,14 +6,14 @@ const Search = ({ onSearch }) => {
     //const userLanguage = localStorage.getItem('i18nextLng') || 'en'; // Default to 'en' if no value found
 
     const [muni, setMuni] = useState('');
-    const [dropdownMuni, setDropdownMuni] = useState([]); // Tracks filtered dropdown options
-    const [municipalities, setMunicipalities] = useState([]); // State for storing municipalities from the API
+    const [dropdownMuni, setDropdownMuni] = useState([]); 
+    const [municipalities, setMunicipalities] = useState([]); 
     const { t } = useTranslation();
  
     useEffect(() => {        
         const fetchMunicipalities = async () => {
             try {
-                const userLanguage = localStorage.getItem('i18nextLng') || 'en'; // Default to 'en' if no value found
+                const userLanguage = localStorage.getItem('i18nextLng') || 'en'; 
                 const response = await fetch(
                     `https://data.stat.fi/api/classifications/v2/classifications/kunta_1_20240101/classificationItems?content=data&meta=max&lang=${userLanguage}&format=json`
                 );

@@ -6,20 +6,21 @@ import WeekForecast from "./components/WeekForecast";
 import HeartComponent from "./components/HeartComponent";
 import { useTranslation } from "react-i18next";
 import HeartButton from "./components/HeartComponent";
+import HourlyWeatherGraph from "./components/HourlyGraph";
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [description, setDescription] = useState(null);
+  const [showHourly, setShowHourly] = useState(false);
+  const [showButton, setShowButton] = useState(false);
   const [descriptionLoading, setDescriptionLoading] = useState(false);
   const { t, i18n } = useTranslation();
   const userLanguage = localStorage.getItem("i18nextLng") || "en";
   const [language, setLanguage] = useState(userLanguage);
   const [favoriteCities, setFavoriteCities] = useState([]);
-  const [unit, setUnit] = useState("metric");  // default to "metric"
+  const [unit, setUnit] = useState("metric"); // default to "metric"
 
-
-  
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
     setLanguage(lang);
@@ -32,14 +33,15 @@ function App() {
     }
 
     // Load favorite cities from sessionStorage
-    const storedFavorites = JSON.parse(sessionStorage.getItem("favoriteCities")) || [];
+    const storedFavorites =
+      JSON.parse(sessionStorage.getItem("favoriteCities")) || [];
     setFavoriteCities(storedFavorites);
 
     // Fetch weather details for all favorite cities at startup
     if (storedFavorites.length > 0) {
       storedFavorites.forEach((city) => handleSearch(city));
     }
-  }, [language,unit]);
+  }, [language, unit]);
 
   const handleSearch = async (muni) => {
     setDescription(null);
@@ -56,11 +58,22 @@ function App() {
     const forecastFetch = fetch(
       `${WEATHER_API_URL}/forecast?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`
     );
-
+    setShowButton(true);
     Promise.all([currentWeatherFetch, forecastFetch])
       .then(async (response) => {
         const weatherResponse = await response[0].json();
         const forecastResponse = await response[1].json();
+        if (response[0].status === 200 && response[1].status === 200) {
+          setShowButton(true); // Show the button if both requests are successful
+        }
+        
+        const hourlyData = forecastResponse.list.map((item) => ({
+          time: item.dt_txt,
+          temp: item.main.temp,
+          humi: item.main.humidity,
+          weather: item.weather[0].description,
+        }));
+
         setWeatherData({
           name: muni,
           details: descriptionText,
@@ -69,6 +82,7 @@ function App() {
         setForecastData({
           name: muni,
           details: descriptionText,
+          hourlyData: hourlyData,
           ...forecastResponse,
         });
       })
@@ -84,6 +98,7 @@ function App() {
     const geminiApiKey = process.env.REACT_APP_GEMINI_KEY;
     setDescriptionLoading(true);
     try {
+      const promptText = t("descriptionPrompt", { muni });
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
         {
@@ -96,7 +111,8 @@ function App() {
               {
                 parts: [
                   {
-                    text: `Tell me about the location and area municipality of ${muni} in Finland`,
+                    // text: `Tell me about the location and area municipality of ${muni} in Finland`,
+                    text: promptText,
                   },
                 ],
               },
@@ -146,7 +162,13 @@ function App() {
     setFavoriteCities(updatedFavorites);
     sessionStorage.setItem("favoriteCities", JSON.stringify(updatedFavorites)); // Save to sessionStorage
   };
-  const isFavorited = weatherData ? favoriteCities.includes(weatherData.name) : false;
+  const isFavorited = weatherData
+    ? favoriteCities.includes(weatherData.name)
+    : false;
+
+    const toggleHourlyForecast = () => {
+      setShowHourly((prev) => !prev); // Toggles the state
+    };
 
   return (
     <div className="App">
@@ -169,18 +191,17 @@ function App() {
         </div>
         <Search onSearch={handleSearch} />
         <div className="unit-selector">
-  <label htmlFor="unit-selector"></label>
-  <select
-    id="unit-selector"
-    value={unit}
-    onChange={(e) => setUnit(e.target.value)}
-  >
-    <option value="metric">°C | m/s</option>   {/* Celsius */}
-    <option value="imperial">°F | mph</option>  {/* Fahrenheit */}
-    <option value="standard">K | Knots</option>   {/* Kelvin */}
-  </select>
-</div>
-
+          <label htmlFor="unit-selector"></label>
+          <select
+            id="unit-selector"
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+          >
+            <option value="metric">°C | m/s</option> {/* Celsius */}
+            <option value="imperial">°F | mph</option> {/* Fahrenheit */}
+            <option value="standard">K | Knots</option> {/* Kelvin */}
+          </select>
+        </div>
       </div>
 
       {/* {weatherData && (
@@ -192,7 +213,7 @@ function App() {
         />
       )} */}
 
-{weatherData && (
+      {weatherData && (
         <div>
           <CurrentWeather
             data={weatherData}
@@ -205,30 +226,41 @@ function App() {
             {favoriteCities.includes(weatherData.name) ? "Unfavorite" : "Favorite"}
           </button> */}
 
-    {/* <div>
+          {/* <div>
       <HeartButton
         isFavorited={isFavorited}
         onClick={() => handleFavoriteClick(weatherData.name)}
       />
     </div> */}
 
+          <div className="centered">
+            <div className="tooltip-container">
+              <HeartButton
+                isFavorited={isFavorited}
+                onClick={() => handleFavoriteClick(weatherData.name)}
+              />
+              <span className="tooltip-text">{t("favorite")}</span>
+            </div>
+          </div>
+        </div>
+      )}
+<div>
+  {showButton && (
+    <div>
+  <button className="toggle-button" onClick={toggleHourlyForecast}>
+  {showHourly ? t('hideHourly') : t('showHourly')}
+  </button>
 
-<div className="centered">
-  <div className="tooltip-container">
-    <HeartButton
-      isFavorited={isFavorited}
-      onClick={() => handleFavoriteClick(weatherData.name)}
-    />
-    <span className="tooltip-text">{t("favorite")}</span>
-  </div>
+  {showHourly && forecastData?.hourlyData && (
+    <HourlyWeatherGraph hourlyData={forecastData.hourlyData} />
+  )}
+</div>
+
+  )}
 </div>
 
 
-        </div>
-      )}
-
-
-      {forecastData && <WeekForecast data={forecastData} unit={unit}/>}
+      {forecastData && <WeekForecast data={forecastData} unit={unit} />}
     </div>
   );
 }

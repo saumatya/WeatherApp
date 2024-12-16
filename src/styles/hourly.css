@@ -1,0 +1,21 @@
+.chart-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 90%;
+  height: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.temperature-chart,
+.humidity-chart {
+  width: 48%;
+  height: 100%;
+}
+
+h3 {
+  text-align: center;
+}

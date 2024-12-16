@@ -17,8 +17,11 @@
     "upcomingDays":"Kommande Dagar",
     "viewDescription" : "Visa Beskrivning",
     "loading":"Laddar",
-    "favorite": "Lisää kunta suosikiksi",
+    "favorite": "Lägg till kommunen som favorit",
     "unitSelectorLabel": "Select Unit",
+    "descriptionPrompt": "Berätta för mig om läget och området för kommunen {{muni}} i Finland",
+    "showHourly": "Visa timmesprognos",
+    "hideHourly": "Dölj timmesprognos",
     "WEEK_DAYS": {
       "monday": "Måndag",
       "tuesday": "Tisdag",

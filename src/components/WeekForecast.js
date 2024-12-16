@@ -2,8 +2,6 @@ import { Accordion, AccordionItemHeading, AccordionItemPanel, AccordionItem, Acc
 import "../styles/forecast.css"
 import { useTranslation } from 'react-i18next';
 
-//const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
 
 const Forecast = ({ data , unit}) => {
     console.log("FORECAST Data received:", data);
@@ -20,7 +18,6 @@ const Forecast = ({ data , unit}) => {
   const dayInWeek = new Date().getDay();
   const forecastDays = WEEK_DAYS.slice(dayInWeek).concat(WEEK_DAYS.slice(0, dayInWeek));
 
-  // Helper function to format the weather icon alt text and temperature labels
   const renderTemperature = (min, max) => `${Math.round(min)}${unit === "metric" ? "°C" : unit === "imperial" ? "°F" : "K"}/ ${Math.round(max)} ${unit === "metric" ? "°C" : unit === "imperial" ? "°F" : "K"}`;
 
   return (

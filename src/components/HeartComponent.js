@@ -30,7 +30,6 @@ const HeartButton = ({ isFavorited, onClick }) => {
   );
 };
 
-// Usage in your component
 
 
 export default HeartButton;

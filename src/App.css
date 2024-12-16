@@ -1,10 +1,9 @@
-/* Flex container for side-by-side display */
 .flex-container {
   display: flex;
-  justify-content: center;  /* Centers both items horizontally */
-  align-items: center;      /* Aligns both items vertically */
-  gap: 20px;                /* Adds space between language selector and search */
-  flex-wrap: wrap;          /* Allows content to wrap on small screens */
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 button {
@@ -15,22 +14,20 @@ button {
 button:hover {
   transform: scale(1.1);
 }
-/* App.css */
-/* App.css */
+
 .centered {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  margin: 0 0; /* Add some margin to reduce space above and below */
+  justify-content: center;
+  align-items: center;
+  margin: 0 0;
 }
 
 .centered p {
-  margin: 0; /* Remove default margin */
-  padding: 0px; /* Add some padding if needed */
-  font-size: 16px; /* Adjust font size */
-  color: #333; /* Change text color */
+  margin: 0;
+  padding: 0px;
+  font-size: 16px;
+  color: #333;
   font-weight: bolder;
-  /* Add any other styles you want for the paragraph */
 }
 
 .tooltip-container {
@@ -47,9 +44,9 @@ button:hover {
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; /* Position it above the button */
+  bottom: 125%;
   left: 50%;
-  margin-left: -60px; /* Center the tooltip */
+  margin-left: -60px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -60,11 +57,10 @@ button:hover {
   opacity: 1;
 }
 
-/* Language Selector */
 .language-selector {
   display: flex;
   flex-direction: column;
-  align-items: center;      /* Centers the contents horizontally */
+  align-items: center;
   margin: 0;
 }
 
@@ -84,17 +80,14 @@ button:hover {
   outline: none;
 }
 
-
-
-/* Search form remains unchanged */
 .search-form {
-  margin-top: 0; /* Ensures search is aligned correctly */
+  margin-top: 0;
 }
 
 .unit-selector {
   display: flex;
   flex-direction: column;
-  align-items: center;      /* Centers the contents horizontally */
+  align-items: center;
   margin: 0;
 }
 
@@ -114,3 +107,60 @@ button:hover {
   outline: none;
 }
 
+.toggle-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+
+.toggle-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.toggle-button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: scale(1);
+}
+
+.toggle-button {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.toggle-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.toggle-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
+}
+
+@media (max-width: 600px) {
+  .toggle-button {
+    font-size: 12px;
+    padding: 6px 16px;
+  }
+}
