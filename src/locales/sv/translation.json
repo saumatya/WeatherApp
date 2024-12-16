@@ -1,0 +1,18 @@
+{
+    "appTitle": "Väderapp",
+    "languageSelectorLabel": "Välj språk:",
+    "search":"Sök",
+    "searchPlaceholder": "Ange kommun",
+    "details": "Detaljer",
+    "feelsLike": "Känns som",
+    "wind": "Vind",
+    "humidity": "Luftfuktighet",
+    "pressure": "Tryck",
+    "clouds": "Moln",
+    "seaLevel": "Havsnivå",
+    "temperature": "Temperatur",
+    "maximum": "Maximum",
+    "minimum": "Minimum",
+    "noDescription": "är en vacker kommun i Finland."
+  }
+  

@@ -1,0 +1,18 @@
+{
+    "appTitle": "Weather App",
+    "languageSelectorLabel": "Choose language:",
+    "search":"Search",
+    "searchPlaceholder": "Enter municipality",
+    "details": "Details",
+    "feelsLike": "Feels like",
+    "wind": "Wind",
+    "humidity": "Humidity",
+    "pressure": "Pressure",
+    "clouds": "Clouds",
+    "seaLevel": "Sea Level",
+    "temperature": "temperature",
+    "maximum": "temperature",
+    "minimum": "temperature",
+    "noDescription": "is a beautiful municipality in Finland."
+  }
+  

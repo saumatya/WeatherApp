@@ -1,0 +1,18 @@
+{
+    "appTitle": "Sääsovellus",
+    "languageSelectorLabel": "Valitse kieli:",
+    "search": "Haku",
+    "searchPlaceholder": "Anna kunta",
+    "details": "Yksityiskohdat",
+    "feelsLike": "Tuntuu kuin",
+    "wind": "Tuuli",
+    "humidity": "Kosteus",
+    "pressure": "Paine",
+    "clouds": "Pilvet",
+    "seaLevel": "Merenpinta",
+    "temperature": "Lämpötila",
+    "maximum": "Maksimi",
+    "minimum": "Minimi", 
+    "noDescription": "on kaunis kunta Suomessa."
+  }
+  
