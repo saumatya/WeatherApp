@@ -13,6 +13,20 @@
     "temperature": "Temperatur",
     "maximum": "Maximum",
     "minimum": "Minimum",
-    "noDescription": "är en vacker kommun i Finland."
+    "noDescription": "är en vacker kommun i Finland.",
+    "upcomingDays":"Kommande Dagar",
+    "viewDescription" : "Visa Beskrivning",
+    "loading":"Laddar",
+    "favorite": "Lisää kunta suosikiksi",
+    "unitSelectorLabel": "Select Unit",
+    "WEEK_DAYS": {
+      "monday": "Måndag",
+      "tuesday": "Tisdag",
+      "wednesday": "Onsdag",
+      "thursday": "Torsdag",
+      "friday": "Fredag",
+      "saturday": "Lördag",
+      "sunday": "Söndag"
+    }
   }
   

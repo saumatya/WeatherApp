@@ -1,38 +1,116 @@
-.App {
+/* Flex container for side-by-side display */
+.flex-container {
+  display: flex;
+  justify-content: center;  /* Centers both items horizontally */
+  align-items: center;      /* Aligns both items vertically */
+  gap: 20px;                /* Adds space between language selector and search */
+  flex-wrap: wrap;          /* Allows content to wrap on small screens */
+}
+
+button {
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+/* App.css */
+/* App.css */
+.centered {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin: 0 0; /* Add some margin to reduce space above and below */
+}
+
+.centered p {
+  margin: 0; /* Remove default margin */
+  padding: 0px; /* Add some padding if needed */
+  font-size: 16px; /* Adjust font size */
+  color: #333; /* Change text color */
+  font-weight: bolder;
+  /* Add any other styles you want for the paragraph */
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
   text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position it above the button */
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.tooltip-container:hover .tooltip-text {
+  font-size: 10px;
+  visibility: visible;
+  opacity: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Language Selector */
+.language-selector {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;      /* Centers the contents horizontally */
+  margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
+.language-selector select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.language-selector select:hover,
+.language-selector select:focus {
+  border-color: #4caf50;
+  background-color: #f1f8e9;
+  outline: none;
 }
+
+
+
+/* Search form remains unchanged */
+.search-form {
+  margin-top: 0; /* Ensures search is aligned correctly */
+}
+
+.unit-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;      /* Centers the contents horizontally */
+  margin: 0;
+}
+
+.unit-selector select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.unit-selector select:hover,
+.unit-selector select:focus {
+  border-color: #4caf50;
+  background-color: #f1f8e9;
+  outline: none;
+}
+

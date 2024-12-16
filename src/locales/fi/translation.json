@@ -13,6 +13,20 @@
     "temperature": "Lämpötila",
     "maximum": "Maksimi",
     "minimum": "Minimi", 
-    "noDescription": "on kaunis kunta Suomessa."
+    "noDescription": "on kaunis kunta Suomessa.",
+    "upcomingDays":"Tulevat Päivät",
+    "viewDescription" : "Näytä Kuvaus",
+    "loading":"Ladataan",
+    "favorite": "Lisää kunta suosikiksi",
+    "unitSelectorLabel": "Select Unit",
+    "WEEK_DAYS": {
+      "monday": "Maanantai",
+      "tuesday": "Tiistai",
+      "wednesday": "Keskiviikko",
+      "thursday": "Torstai",
+      "friday": "Perjantai",
+      "saturday": "Lauantai",
+      "sunday": "Sunnuntai"
+    }
   }
   

@@ -9,25 +9,8 @@ const Search = ({ onSearch }) => {
     const [dropdownMuni, setDropdownMuni] = useState([]); // Tracks filtered dropdown options
     const [municipalities, setMunicipalities] = useState([]); // State for storing municipalities from the API
     const { t } = useTranslation();
-    //hardcoded municpalities list
-    // const municipalities = [
-    //     "Akaa",
-    //     "Alajärvi",
-    //     "Alavieska",
-    //     "Alavus",
-    //     "Asikkala",
-    //     "Askola",
-    //     "Aura",
-    //     "Brändö",
-    //     "Eckerö",
-    //     "Enonkoski",
-    //     "Enontekiö",
-    //     "Espoo"
-    // ];
-    //https://data.stat.fi/api/classifications/v2/classifications/kunta_1_20240101/classificationItems?content=data&meta=max&lang=en&format=json
-
-    useEffect(() => {
-        // Fetch municipalities from the API when the component mounts
+ 
+    useEffect(() => {        
         const fetchMunicipalities = async () => {
             try {
                 const userLanguage = localStorage.getItem('i18nextLng') || 'en'; // Default to 'en' if no value found
@@ -36,7 +19,6 @@ const Search = ({ onSearch }) => {
                 );
                 const data = await response.json();
                 console.log(data);
-                // Assuming API returns an array of municipalities under the "classificationItems"
                 const municipalitiesList = data.map(item => ({
                     name: item.classificationItemNames[0].name,
                     code: item.code

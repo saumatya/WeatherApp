@@ -13,6 +13,20 @@
     "temperature": "temperature",
     "maximum": "temperature",
     "minimum": "temperature",
-    "noDescription": "is a beautiful municipality in Finland."
+    "noDescription": "is a beautiful municipality in Finland.",
+    "upcomingDays":"Upcoming Days",
+    "viewDescription" : "View Description",
+    "loading":"Loading",
+    "favorite": "Add municipality to favorite",
+    "unitSelectorLabel": "Select Unit",
+    "WEEK_DAYS": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
   }
   

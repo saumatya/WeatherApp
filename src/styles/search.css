@@ -1,0 +1,105 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Wrapper styling */
+.search-form {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px 15px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Input container */
+.input-container {
+    position: relative;
+}
+
+/* Search input field */
+.search-form input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    transition: 0.3s ease;
+    background-color: #ffffff;
+}
+
+/* Input field focus effect */
+.search-form input:focus {
+    border-color: #4caf50;
+    box-shadow: 0px 0px 5px rgba(0, 176, 77, 0.4);
+}
+
+/* Dropdown menu styling */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 8px;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    list-style-type: none;
+}
+
+/* Each dropdown item */
+.dropdown li {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for dropdown items */
+.dropdown li:hover {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+/* Submit button styling */
+.search-form button {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 10px;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Button hover effect */
+.search-form button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 480px) {
+    .search-form {
+        padding: 10px;
+        max-width: 100%;
+    }
+    
+    .search-form input, .search-form button {
+        font-size: 14px;
+    }
+}
