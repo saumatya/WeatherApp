@@ -22,18 +22,19 @@ const Forecast = ({ data , unit}) => {
 
   return (
     <>
+    <div className="forecast-container">
       <label className="title">{t('upcomingDays')}</label>
       <Accordion allowZeroExpanded>
         {data.list.slice(0, 7).map((item, idx) => {
           const { weather, main, clouds, wind } = item;
           const { icon, description } = weather[0];
-          const { temp_min, temp_max, feels_like, pressure, humidity, seal_level } = main;
+          const { temp_min, temp_max, feels_like, pressure, humidity, sea_level } = main;
 
           return (
             <AccordionItem key={idx}>
               <AccordionItemHeading>
                 <AccordionItemButton>
-                  <div className="daily-item">
+                  <div className="daily-item" title={t('clickDetails')}>
                     <img alt={`${description} icon`} className="icon-small" src={`icons/${icon}.png`} />
                     <label className="day">{forecastDays[idx]}</label>
                     <label className="description">{description}</label>
@@ -61,7 +62,7 @@ const Forecast = ({ data , unit}) => {
                   </div>
                   <div className="daily-details-grid-item">
                     <label>{t('seaLevel')}</label>
-                    <label>{seal_level} m</label>
+                    <label>{sea_level} m</label>
                   </div>
                   <div className="daily-details-grid-item">
                     <label>{t('feelsLike')}</label>
@@ -73,6 +74,7 @@ const Forecast = ({ data , unit}) => {
           );
         })}
       </Accordion>
+      </div>
     </>
   );
 }

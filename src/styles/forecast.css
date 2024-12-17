@@ -1,11 +1,23 @@
+.forecast-container{
+    background-color: rgb(228, 236, 236);
+    margin: 20px 20px 20px 20px;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 10px -2px 20px 2px rgb(0 0 0 / 30%);
+}
 .title {
-    font-family: 23px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, sans-serif; /* Updated to a valid font family */
     font-weight: 700;
     font-size: 30px;
     margin-bottom: 20px;
+    margin-top: 20px;
     margin-left: 20px;
-}
-.daily-item{
+    padding: 50px;
+    color: #000000;
+
+  }
+  
+  .daily-item {
     background-color: #f5f5f5;
     border-radius: 15px;
     height: 40px;
@@ -15,7 +27,38 @@
     cursor: pointer;
     font-size: 14px;
     padding: 5px 20px;
-}
+    position: relative;
+    transition: background-color 0.3s ease; 
+  }
+  
+  
+  .daily-item:hover {
+    background-color: rgb(190, 230, 250); 
+  }
+  
+  
+  .daily-item:hover::after {
+    position: absolute;
+    top: 50%;   
+    left: 50%;  
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    white-space: nowrap;  
+    z-index: 2; 
+  }
+  
+  
+  .daily-item .day,
+  .daily-item .description,
+  .daily-item .min-max {
+    z-index: 1;  
+  }
+  
+  
 .icon-small{
     width: 40px;
 
@@ -30,6 +73,7 @@
     flex: 1 1;
     margin-right: 15px;
     text-align: right;
+    margin-bottom: 10px;
 }
 .min-max {
     color: #757575;
@@ -49,6 +93,7 @@
     display: flex;
     height: 30px;
     justify-content: space-between;
+    font-weight: 600;
 }
 .daily-details-grid-item-label:first-child {
     color: #757575;

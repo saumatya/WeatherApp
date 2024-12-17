@@ -21,7 +21,12 @@
     "unitSelectorLabel": "Select Unit",
     "descriptionPrompt": "Berätta för mig om läget och området för kommunen {{muni}} i Finland",
     "showHourly": "Visa timmesprognos",
-    "hideHourly": "Dölj timmesprognos",
+    "hideHourly": "Klikkaa yksityiskohtia",
+    "clickDetails": "Klicka för detaljer",
+    "yourLocation": "Din plats",
+    "errorMessage": "Något gick fel. Försök igen.",
+    "errorLoadingDescription": "",
+    "inputError": "Endast bokstäver är tillåtna",
     "WEEK_DAYS": {
       "monday": "Måndag",
       "tuesday": "Tisdag",

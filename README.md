@@ -49,8 +49,10 @@ The **JSON Tree Viewer** was primarily used for:
 ### Chrome Dev Tools Usage
 Chrome Developer Tools were instrumental for testing and debugging:
 - **Console**: `console.log()` statements were used for debugging the application and checking data responses.
-- **Network Tab**: API requests and responses were monitored in real-time to ensure correct data fetching and error handling. Easy to check if the endpoint url , request payload  is correct.
+- **Network Tab**: API requests and responses were monitored in real-time to ensure correct data fetching and error handling. Easy to check if the endpoint url , request payload  is correct, checking HTTP status response code. It was also handy to see the loading time of slow response of Gemini api.
 - **Application Tab**: The data stored in local storage like language setting and favorite places can be viewed here.
+- **Elements Tab**: The Elements Tab was used to inspect CSS elements and perform real-time CSS editing to adjust and render UI elements properly
+- **Sources Tab**: The Sources Tab was used to add breakpoints in the source code, step in and out of functions to investigate errors, evaluate variables, and debug the application.
 
 These testing methods ensured the app's functionality and robustness, confirming that weather data was accurate and the UI was user-friendly.
 
@@ -59,6 +61,7 @@ These testing methods ensured the app's functionality and robustness, confirming
 ### API Documentation Review
 - The **OpenWeather API** documentation was reviewed in detail to understand its endpoints, limitations, and available data.
 - Identified relevant endpoints for weather data (current weather, forecast) and data formats needed for display.
+- The **Gemini API** documentation was reviewed in detail to understand its endpoints, limitations, and how to tweak it based on our requirement.
 
 ### Brainstorming Ideas
 - Identified user requirements such as viewing current weather, visualizing trends, and offering multi-language support.
@@ -79,25 +82,63 @@ These testing methods ensured the app's functionality and robustness, confirming
 ## Challenges Encountered
 
 ### Limitations of Gemini API
-During development, one challenge I faced was handling the limited free API quota from Gemini, especially when fetching data frequently. I used the model gemini-1.5-flash model which was quite slow to fetch around 4s. 
+During development, one challenge I faced was handling the limited free API quota from Gemini, especially when fetching data frequently. I used the model gemini-1.5-flash model which was quite slow to fetch around 4s. The slow response of Gemini made the entire app slow. Sometimes the description is not well formatted. For some municipalities, it cannot provide information. I tried using Open AI API but for free version it required credits and was not able to get success response. Looked into Hugging face models but realized running models in my local computer is not feasible. 
 
 
 #### Resolution
-Added generationConfig and tweaked the values of temperature,maxOutputTokens,topP,topK for faster response. It made the response faster although still slow for the application. Created separate fetching for description lazy loading so that other elements of our app is not lagging.
+Added generationConfig and tweaked the values of temperature,maxOutputTokens,topP,topK for faster response. It made the response faster although still slow for the application. Created separate fetching for description lazy loading so that other elements of our app is not lagging. Removed unwanted symbols from the generated text before showing on the app.
 
 ### Language Support Implementation
-Integrating multi-language support using **i18next** presented an initial challenge due to the varying translations of weather terminology. Ensuring that terms like "Clear", "Cloudy", and "Rainy" appeared correctly in all supported languages took additional effort.
+Integrating multi-language support using **i18next** presented an initial challenge due to the varying translations of weather terminology. Ensuring that terms appeared correctly in all supported languages took additional effort but thankfully the weather api hand language query parameter option that was useful to switch lanagues and get weather description in user selected language. I added translation files for all words used in the app and is translated to the user selected language when rendering.
 
 #### Resolution
+I added translation files in locales folder where all words used in the app are added and its corresponding translated words added. This helps to showthe user selected language when rendering. I made use of manually using Google Translate for translations of words into Finnish and Swedish so their could be translation errors.
+
 I thoroughly tested language strings and their integration into the UI to ensure correct and consistent translations. This made the app accessible to a wider audience by offering localized weather descriptions in different languages.
 
 ---
 
 ## Future Enhancements
-- Add the ability to display additional weather details like wind speed, air quality, etc.
+- Add the ability to display additional weather details like  rain, air quality, maps integration etc.
 - Integrate user authentication to save user preferences (location, unit preferences, etc.)
+- Add more languages support.
 - Implement real-time weather notifications for updates or sudden changes in weather conditions.
+- Find better language model and train to get better description results.
 
+## Error Handling
+- Added input validation for the text search field to allow only alphabets, including Finnish and Swedish Unicode characters.
+- Displayed appropriate error messages to the user, such as when data fetching fails.
+- Implemented checks for HTTP status codes in API responses to handle errors effectively.
+- Fallback mechanism if something fails.
+
+
+Following npm packages were used:
+
+npm install react-chartjs-2 chart.js
+npm install i18next react-i18next i18next-browser-languagedetector
+npm install react-accessible-accordion
+
+## Configuration Settings
+
+The application uses a **config.json** file to store essential configuration settings, including API endpoints, units, and language preferences. This helps keep the code modular and easier to maintain.
+The icons used in the application are located in filesystem public/icons directory. It is based on icon code provided by OpenWeather API and downloaded here.
+
+### Configuration Details
+The configuration file contains the following settings:
+
+- **forecastWeatherUrl**: The URL endpoint for fetching weather forecast data from the OpenWeather API.
+- **currentWeatherUrl**: The URL endpoint for fetching current weather data from the OpenWeather API.
+- **descriptionFetchUrl**: The URL endpoint for generating content or descriptions from the Gemini API (Google's generative language model).
+- **municipalityURL**: The URL endpoint for retrieving municipality classification data from Statistics Finland API.
+- **units**: Specifies the unit system used for weather data, set to `"metric"` for Celsius temperature, meter-per-second wind speed, and other metric units.
+- **language**: Sets the default language for API responses, with `"en"` denoting English.
+
+
+
+### Usage
+This configuration file allows for centralized management of API URLs and settings, making it easy to update and switch between different data sources or environments (e.g., development, production).
+
+By keeping configuration and endpoints in this separate file, the application can be adapted easily to different setups or regions.
 
 # Getting Started with Create React App
 

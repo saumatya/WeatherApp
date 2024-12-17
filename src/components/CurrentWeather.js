@@ -1,11 +1,11 @@
 import "../styles/current-weather.css";
 import { useTranslation } from "react-i18next";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const CurrentWeather = ({ data, description, fetchDescription, isLoading, unit  }) => {
-  const [translatedDescription, setTranslatedDescription] = useState(description);
-    const [showDescription, setShowDescription] = useState(false);
-  const userLanguage = localStorage.getItem("i18nextLng") || "en";
+  // const [translatedDescription, setTranslatedDescription] = useState(description);
+  //   const [showDescription, setShowDescription] = useState(false);
+  //const userLanguage = localStorage.getItem("i18nextLng") || "en";
   const { t, i18n } = useTranslation();
   console.log(`inside current weather ${i18n.language}`);
 
@@ -37,7 +37,7 @@ const CurrentWeather = ({ data, description, fetchDescription, isLoading, unit  
         <div className="weather">
       <div className="top">
         <div>
-          <p className="city">{data.name}</p>
+          <p className="municipality">{data.name}</p>
           {/* <p className="weather-description">{data.details}</p> */}
           <p className="weather-description">{data.weather[0].description}</p>
         </div>

@@ -22,6 +22,11 @@
     "descriptionPrompt" : "Kerro minulle {{muni}}-kunnan sijainnista ja alueesta Suomessa",
     "showHourly": "Näytä tuntiennuste",
     "hideHourly": "Piilota tuntiennuste",
+    "clickDetails": "Klikkaa yksityiskohtia",
+    "yourLocation": "Sijaintisi",
+    "errorMessage": "Jotain meni pieleen. Yritä uudelleen.",
+    "errorLoadingDescription": "",
+    "inputError": "Vain kirjaimet sallittu",
     "WEEK_DAYS": {
       "monday": "Maanantai",
       "tuesday": "Tiistai",

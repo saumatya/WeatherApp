@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import Search from "./components/Search";
 import CurrentWeather from "./components/CurrentWeather";
 import WeekForecast from "./components/WeekForecast";
-import HeartComponent from "./components/HeartComponent";
 import { useTranslation } from "react-i18next";
 import HeartButton from "./components/HeartComponent";
 import HourlyWeatherGraph from "./components/HourlyGraph";
+import config from './config'; 
+
 
 function App() {
   const [weatherData, setWeatherData] = useState(null);
@@ -19,7 +20,8 @@ function App() {
   const userLanguage = localStorage.getItem("i18nextLng") || "en";
   const [language, setLanguage] = useState(userLanguage);
   const [favoriteCities, setFavoriteCities] = useState([]);
-  const [unit, setUnit] = useState("metric"); // default to "metric"
+  const [unit, setUnit] = useState("metric");
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
@@ -28,71 +30,121 @@ function App() {
   useEffect(() => {
     localStorage.setItem("i18nextLng", language);
     console.log("Language changed to: ", language);
+
     if (weatherData && weatherData.name) {
       handleSearch(weatherData.name);
     }
 
-    // Load favorite cities from sessionStorage
     const storedFavorites =
       JSON.parse(sessionStorage.getItem("favoriteCities")) || [];
     setFavoriteCities(storedFavorites);
 
-    // Fetch weather details for all favorite cities at startup
     if (storedFavorites.length > 0) {
       storedFavorites.forEach((city) => handleSearch(city));
     }
   }, [language, unit]);
 
-  const handleSearch = async (muni) => {
-    setDescription(null);
+  // const handleSearch = async (muni) => {
+  //   setDescription(null);
+  //   let descriptionText = "";
+  //   const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5";
+  //   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  //   //const hardcodedMuni="Sottunga"
 
-    let descriptionText = "";
-    const geminiApiKey = process.env.REACT_APP_GEMINI_KEY;
+  //   const currentWeatherFetch = fetch(
+  //     `${WEATHER_API_URL}/weather?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`
+  //   );
+  //   const forecastFetch = fetch(
+  //     `${WEATHER_API_URL}/forecast?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`
+  //   );
 
-    const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5";
-    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
-    //const hardcodedMuni="Sottunga"
-    const currentWeatherFetch = fetch(
-      `${WEATHER_API_URL}/weather?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`
-    );
-    const forecastFetch = fetch(
-      `${WEATHER_API_URL}/forecast?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`
-    );
+  //   Promise.all([currentWeatherFetch, forecastFetch])
+  //     .then(async (response) => {
+  //       const weatherResponse = await response[0].json();
+  //       const forecastResponse = await response[1].json();
+  //       if (response[0].status === 200 && response[1].status === 200) {
+  //         setShowButton(true); // Show the button if both requests are successful
+  //       }
+
+  //       const hourlyData = forecastResponse.list.map((item) => ({
+  //         time: item.dt_txt,
+  //         temp: item.main.temp,
+  //         humi: item.main.humidity,
+  //         weather: item.weather[0].description,
+  //       }));
+
+  //       setWeatherData({
+  //         name: muni,
+  //         details: descriptionText,
+  //         ...weatherResponse,
+  //       });
+  //       setForecastData({
+  //         name: muni,
+  //         details: descriptionText,
+  //         hourlyData: hourlyData,
+  //         ...forecastResponse,
+  //       });
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+//................handle search end
+
+const handleSearch = async (muni) => {
+  setDescription(null);
+  setWeatherData(null);
+  setForecastData(null);
+  setShowButton(false);
+  setErrorMessage(""); 
+
+  //const WEATHER_API_URL = "https://api.openweathermap.org/data/2.5";
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+
+  try {
+    if (muni === "Maarianhamina - Mariehamn"){
+      muni= "Maarianhamina"
+    }
+    const [currentWeatherResponse, forecastResponse] = await Promise.all([
+      // fetch(`${WEATHER_API_URL}/weather?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`),
+      fetch(`${config.currentWeatherUrl}?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`),
+      fetch(`${config.forecastWeatherUrl}?q=${muni}&appid=${apiKey}&units=${unit}&lang=${language}`)
+    ]);
+    
+    if (!currentWeatherResponse.ok || !forecastResponse.ok) {
+      throw new Error("City not found. Please enter a valid location.");
+    }
+
+    const weatherData = await currentWeatherResponse.json();
+    const forecastData = await forecastResponse.json();
+
+    const hourlyData = forecastData.list.map((item) => ({
+      time: item.dt_txt,
+      temp: item.main.temp,
+      humi: item.main.humidity,
+      weather: item.weather[0].description,
+    }));
+
+    setWeatherData({
+      name: muni,
+      ...weatherData,
+    });
+
+    setForecastData({
+      name: muni,
+      hourlyData: hourlyData,
+      ...forecastData,
+    });
+
     setShowButton(true);
-    Promise.all([currentWeatherFetch, forecastFetch])
-      .then(async (response) => {
-        const weatherResponse = await response[0].json();
-        const forecastResponse = await response[1].json();
-        if (response[0].status === 200 && response[1].status === 200) {
-          setShowButton(true); // Show the button if both requests are successful
-        }
-        
-        const hourlyData = forecastResponse.list.map((item) => ({
-          time: item.dt_txt,
-          temp: item.main.temp,
-          humi: item.main.humidity,
-          weather: item.weather[0].description,
-        }));
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    setErrorMessage(t("errorMessage"));
+  }
+};
 
-        setWeatherData({
-          name: muni,
-          details: descriptionText,
-          ...weatherResponse,
-        });
-        setForecastData({
-          name: muni,
-          details: descriptionText,
-          hourlyData: hourlyData,
-          ...forecastResponse,
-        });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  console.log(weatherData);
-  console.log(forecastData);
-
-  console.log(`below ${userLanguage}`);
+  // console.log(weatherData);
+  // console.log(forecastData);
+   console.log(`below ${userLanguage}`);
 
   const fetchDescription = async (muni) => {
     const geminiApiKey = process.env.REACT_APP_GEMINI_KEY;
@@ -100,7 +152,7 @@ function App() {
     try {
       const promptText = t("descriptionPrompt", { muni });
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
+        `${config.descriptionFetchUrl}?key=${geminiApiKey}`,
         {
           method: "POST",
           headers: {
@@ -138,15 +190,9 @@ function App() {
       setDescription(descriptionText);
     } catch (error) {
       console.error("Error fetching description:", error);
-      setDescription(t("errorLoadingDescription"));
+      setDescription(t("errorMessage"));
     } finally {
       setDescriptionLoading(false);
-    }
-  };
-
-  const handleDescriptionClick = () => {
-    if (!description) {
-      fetchDescription(weatherData.name); // Fetch description for the current municipality
     }
   };
 
@@ -154,25 +200,29 @@ function App() {
     let updatedFavorites = [...favoriteCities];
 
     if (updatedFavorites.includes(cityName)) {
-      updatedFavorites = updatedFavorites.filter((city) => city !== cityName); // Remove from favorites
+      updatedFavorites = updatedFavorites.filter((city) => city !== cityName); 
     } else {
-      updatedFavorites.push(cityName); // Add to favorites
+      updatedFavorites.push(cityName); 
     }
 
     setFavoriteCities(updatedFavorites);
-    sessionStorage.setItem("favoriteCities", JSON.stringify(updatedFavorites)); // Save to sessionStorage
+    sessionStorage.setItem("favoriteCities", JSON.stringify(updatedFavorites)); 
   };
   const isFavorited = weatherData
     ? favoriteCities.includes(weatherData.name)
     : false;
 
-    const toggleHourlyForecast = () => {
-      setShowHourly((prev) => !prev); // Toggles the state
-    };
+  const toggleHourlyForecast = () => {
+    setShowHourly((prev) => !prev); 
+  };
 
   return (
     <div className="App">
-      <h1>{t("appTitle")}</h1>
+      <div className="app-title">
+        <a href="/" class="app-title">
+          {t("appTitle")}
+        </a>
+      </div>
 
       <div className="flex-container">
         <div className="language-selector">
@@ -189,7 +239,7 @@ function App() {
             <option value="fi">Suomi</option>
           </select>
         </div>
-        <Search onSearch={handleSearch} />
+        <Search onSearch={handleSearch} setErrorMessage={setErrorMessage}/>
         <div className="unit-selector">
           <label htmlFor="unit-selector"></label>
           <select
@@ -197,21 +247,24 @@ function App() {
             value={unit}
             onChange={(e) => setUnit(e.target.value)}
           >
-            <option value="metric">°C | m/s</option> {/* Celsius */}
-            <option value="imperial">°F | mph</option> {/* Fahrenheit */}
-            <option value="standard">K | Knots</option> {/* Kelvin */}
+            <option value="metric">°C | m/s</option> 
+            <option value="imperial">°F | mph</option> 
+            <option value="standard">K | Knots</option> 
           </select>
         </div>
       </div>
 
-      {/* {weatherData && (
-        <CurrentWeather
-          data={weatherData}
-          description={description}
-          fetchDescription={() => fetchDescription(weatherData.name)}
-          isLoading={descriptionLoading}
-        />
-      )} */}
+      {errorMessage && (
+  <div className="popup-overlay">
+    <div className="popup-content">
+      <span className="close-btn" onClick={() => setErrorMessage("")}>
+        &times;
+      </span>
+      <p>{errorMessage}</p>
+    </div>
+  </div>
+)}
+
 
       {weatherData && (
         <div>
@@ -222,16 +275,6 @@ function App() {
             isLoading={descriptionLoading}
             unit={unit}
           />
-          {/* <button onClick={() => handleFavoriteClick(weatherData.name)}>
-            {favoriteCities.includes(weatherData.name) ? "Unfavorite" : "Favorite"}
-          </button> */}
-
-          {/* <div>
-      <HeartButton
-        isFavorited={isFavorited}
-        onClick={() => handleFavoriteClick(weatherData.name)}
-      />
-    </div> */}
 
           <div className="centered">
             <div className="tooltip-container">
@@ -244,21 +287,20 @@ function App() {
           </div>
         </div>
       )}
-<div>
-  {showButton && (
-    <div>
-  <button className="toggle-button" onClick={toggleHourlyForecast}>
-  {showHourly ? t('hideHourly') : t('showHourly')}
-  </button>
 
-  {showHourly && forecastData?.hourlyData && (
-    <HourlyWeatherGraph hourlyData={forecastData.hourlyData} />
-  )}
-</div>
+      <div>
+        {showButton && (
+          <div>
+            <button className="toggle-button" onClick={toggleHourlyForecast}>
+              {showHourly ? t("hideHourly") : t("showHourly")}
+            </button>
 
-  )}
-</div>
-
+            {showHourly && forecastData?.hourlyData && (
+              <HourlyWeatherGraph hourlyData={forecastData.hourlyData} />
+            )}
+          </div>
+        )}
+      </div>
 
       {forecastData && <WeekForecast data={forecastData} unit={unit} />}
     </div>

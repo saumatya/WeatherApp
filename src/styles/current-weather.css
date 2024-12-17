@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 200px;
+  gap: 5%;
 }
 
 .description-container {
@@ -69,9 +69,9 @@
   align-items: center;
 }
 
-.city {
+.municipality {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 38px;
   line-height: 1;
   margin: 0;
   letter-spacing: 1px;
@@ -107,13 +107,15 @@
 }
 
 .parameter-label {
+  margin-left: 50px;
   text-align: left;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .parameter-value {
   text-align: right;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 18px;
+  margin-right: 50px;
 }

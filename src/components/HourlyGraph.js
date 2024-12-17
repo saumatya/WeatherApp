@@ -68,7 +68,7 @@ const HourlyWeatherGraph = ({ hourlyData }) => {
         type: "time",
         time: {
           unit: "hour",
-          stepSize: 1,
+          stepSize: 3,
         },
         ticks: {
           autoSkip: false,
